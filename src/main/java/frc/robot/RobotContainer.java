@@ -43,6 +43,8 @@ public class RobotContainer {
   // The driver's controller
   CommandXboxController m_driverController =
       new CommandXboxController(OIConstants.kDriverControllerPort);
+      CommandXboxController m_operatorController =
+      new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -80,14 +82,14 @@ public class RobotContainer {
     m_driverController.leftStick().whileTrue(m_robotDrive.setXCommand());
 
     // Left Bumper -> Run tube intake
-    m_driverController.leftBumper().whileTrue(m_coralSubSystem.runIntakeCommand());
+    m_operatorController.leftBumper().whileTrue(m_coralSubSystem.runIntakeCommand());
 
     // Right Bumper -> Run tube intake in reverse
-    m_driverController.rightBumper().whileTrue(m_coralSubSystem.reverseIntakeCommand());
+    m_operatorController.rightBumper().whileTrue(m_coralSubSystem.reverseIntakeCommand());
 
     // B Button -> Elevator/Arm to human player position, set ball intake to stow
     // when idle
-    m_driverController
+    m_operatorController
         .b()
         .onTrue(
             m_coralSubSystem
@@ -95,13 +97,13 @@ public class RobotContainer {
                 .alongWith(m_algaeSubsystem.stowCommand()));
 
     // A Button -> Elevator/Arm to level 2 position
-    m_driverController.a().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2));
+    m_operatorController.a().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2));
 
     // X Button -> Elevator/Arm to level 3 position
-    m_driverController.x().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3));
+    m_operatorController.x().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3));
 
     // Y Button -> Elevator/Arm to level 4 position
-    m_driverController.y().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
+    m_operatorController.y().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
 
     // Right Trigger -> Run ball intake, set to leave out when idle
     m_driverController
